@@ -1,0 +1,12 @@
+# The following 3 lines ignore executable files (which have no extension)
+
+# Ignore all
+*
+# Unignore all with extensions
+!*.*
+# Unignore all dirs
+!*/
+
+
+# Now ignore any other files
+.DS_Store
