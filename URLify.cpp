@@ -7,6 +7,8 @@
  */
 
 #include <iostream>
+#include <fstream>
+#include <string>
 
 // Modify c-string s so that spaces ' ' are replaced with "%20"
 // Note: Max input size: char[256]
@@ -34,15 +36,37 @@ char* URLify(char* s) {
     }
     current_s_copy++;
   }
+  // Append final null character
+  *current_s = '\0';
   return s;
 }
 
 
 int main() {
-  char input[256];
-  strcpy(input, "Hello world, it's  a new day.");
-  printf("Before: %s\n", input);
-  URLify(input);
-  printf("After : %s\n", input);
+  // Test with user input
+  // char input_as_cstring[256];
+
+  // std::string input = "";
+  // std::cout << "Enter a string with spaces, then press [enter]." << '\n';
+  // std::getline(std::cin, input);
+  // strcpy(input_as_cstring, input.c_str());
+
+  // std::cout << '\n';
+  // std::cout << "After URLify:" << '\n';
+  // std::cout << URLify(input_as_cstring) << '\n';
+
+  // Test with file
+  std::ifstream testFile("URLify_test.txt");
+  if(testFile.is_open()) {
+    std::string line;
+    char line_as_cstring[256];
+    while(std::getline(testFile, line)) {
+      strcpy(line_as_cstring, line.c_str());
+      URLify(line_as_cstring);
+      std::cout << line << '\n';
+      std::cout << line_as_cstring << '\n';
+      std::cout << '\n';
+    }
+  }
   return 0;
 }

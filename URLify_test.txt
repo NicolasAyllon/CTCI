@@ -1,0 +1,6 @@
+To be or not to be
+while(i > 0)
+It always seems
+i m p o s s i b l e
+Until  it's done
+x^2 + 3x - 7 = x(x + 3) - 7
