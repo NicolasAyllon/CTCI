@@ -2,19 +2,13 @@ apple
 banana
 beet
 broccoli
-<<<<<<< HEAD
 corn
-=======
->>>>>>> bd6b499299550e9a207e2488f64928056b5f4d90
 cranberry
 dragonfruit
 eggplant
 ginger
-<<<<<<< HEAD
 kale
 lemon
-=======
->>>>>>> bd6b499299550e9a207e2488f64928056b5f4d90
 mango
 orange
 pear
