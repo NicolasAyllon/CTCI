@@ -36,6 +36,7 @@ bool palindromePermutation(const std::string& s) {
       numLetters++;
     }
   }
+  
   // Test frequency table:
   // for(char c = 'a'; c <= 'z'; ++c) { std::cout << c << " "; }
   // std::cout << '\n';
@@ -52,6 +53,7 @@ bool palindromePermutation(const std::string& s) {
   for(int frequency : f_table) {
     if(frequency % 2 == 1) {
       if(allowOddFrequency) {
+        // One letter has been allowed to have odd frequency, no more.
         allowOddFrequency = false;
       } 
       else { // allowOddFrequency is false
@@ -79,6 +81,7 @@ int letterToIndex(const char c) {
 
 
 int main() {
+  // Test with user input:
   std::string line;
   std::cout << "Enter a string: " << '\n';
   std::getline(std::cin, line);
