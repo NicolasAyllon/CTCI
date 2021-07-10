@@ -6,6 +6,8 @@
  */
 
 #include<iostream>
+#include<fstream>
+#include<sstream>
 #include<string>
 #include<cmath>
 
@@ -49,9 +51,21 @@ bool oneAway(const std::string& s1, const std::string& s2) {
 
 
 int main() {
+  // Test from file
+  std::ifstream testFile("OneAway_test.txt");
+  if(testFile.is_open()) {
+    std::string line;
+    while(std::getline(testFile, line)) {
+      std::stringstream ss(line);
+      std::string s1, s2, result;
+      if(!(ss >> s1 >> s2)) { break; } // break on bad read (end-of-file)
+      result = oneAway(s1, s2) ? "true" : "false";
+      std::printf("%s %s => %s\n", s1.c_str(), s2.c_str(), result.c_str());
+    }
+  }
   // Test hardcoded strings
-  std::string s1 = "gamble";
-  std::string s2 = "gables";
-  std::string result = oneAway(s1, s2) ? "true" : "false";
-  std::cout << result << '\n';
+  // std::string s1 = "drone";
+  // std::string s2 = "done";
+  // std::string result = oneAway(s1, s2) ? "true" : "false";
+  // std::cout << result << '\n';
 }
