@@ -4,10 +4,10 @@ Write an algorithm such that if an element in an M x N matrix is 0,
 its entire row and column are set to 0.
 */
 
-#include<iostream>
-#include<fstream>
-#include<vector>
-#include<set>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <set>
 
 void propagateZeros(std::vector<std::vector<int> >& m) {
   // Do nothing if there are 0 rows or columns

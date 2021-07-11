@@ -3,9 +3,9 @@ Rotate Matrix:
 Given an image represented by an N x N matrix, where each pixel in the image
 is 4 bytes, write a method to rotate the image by 90 degrees.
 */
-#include<iostream>
-#include<fstream>
-#include<vector>
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 // In-place counterclockwise rotation 
 // For square (N x N) matrices
