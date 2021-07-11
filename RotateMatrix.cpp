@@ -25,25 +25,30 @@ void rotateSquareMatrixCounterclockwise(std::vector< std::vector<int> >& m) {
         |                    -i |
     0->(*)  *   *  ...  *   *<-(*)
         |+i                 |    
-        *-->*->(*) ...  *   *   *
+        *-->*->(A) ...  *   *   *
              +j             |+j
-        *   *   *  ...  *  (*)   *
+        *   *   *  ...  *  (B)   *
     i              ...      
-        *  (*)  *  ...  *   *   *
+        *  (D)  *  ...  *   *   *
           -j|              -j
-        *   *   *  ... (*)<-*<--*
+        *   *   *  ... (C)<-*<--*
             |                   | -i
   N-1->(*)->*   *  ...  *   *  (*)
           +i
+
+              A: m[i][j]
+              B: m[j][N-1-i]
+              C: m[N-1-i][N-1-j]
+              D: m[N-1-j][i]
   */
- 
+
   for(int i = 0; i < N/2; ++i) {
     for(int j = 0; j < (N+1)/2; ++j) {
-      temp = m[i][j];
-      m[0  +i][0  +j] = m[0  +j][N-1-i];
-      m[0  +j][N-1-i] = m[N-1-i][N-1-j];
-      m[N-1-i][N-1-j] = m[N-1-j][0  +i];
-      m[N-1-j][0  +i] = temp;
+      temp = m[i][j];                    // temp = A
+      m[0  +i][0  +j] = m[0  +j][N-1-i]; // A = B
+      m[0  +j][N-1-i] = m[N-1-i][N-1-j]; // B = C
+      m[N-1-i][N-1-j] = m[N-1-j][0  +i]; // C = D
+      m[N-1-j][0  +i] = temp;            // D = temp
     }
   }
 }
