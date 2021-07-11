@@ -29,6 +29,7 @@ bool isRotation(const std::string& s1, const std::string& s2) {
   return isSubstring(s1, s2 + s2);
 }
 
+
 // Is s1 a substring of s2 ?
 bool isSubstring(const std::string& s1, const std::string& s2) {
   int l1 = s1.length();
@@ -36,9 +37,20 @@ bool isSubstring(const std::string& s1, const std::string& s2) {
   // s1 cannot be a substring if it is longer than s2
   if(l1 > l2) return false;
 
-  // 0 <= i <= (l2 - 1) - (l1 - 1)
-  // 0 <= i <  (l2 - 1) - (l1 - 1) + 1
-  for(int i = 0; i < l2 - l1 + 1; ++i) {
+  // Use i as a starting index in s2 and 0 <= j <= l1 as index for s1
+  // Compare characters s1 in s2 to those in s2, at i offset by j.
+  //
+  //        s2                      s1
+  // 0  1  2  3 ... l2         0  1  2 ... l1
+  //    |->|->|                |->|->|
+  //    i    i+j                     j
+  //
+  // Find range for i so (i + j) is in bounds of s2.
+  // 0 <= i +    j   <= l2-1
+  // 0 <= i + (l1-1) <= l2-1
+  // 0 <= i          <= l2 - l1
+  
+  for(int i = 0; i <= l2 - l1; ++i) {
     bool match = true;
     for(int j = 0; j < l1; ++j) {
       if (s1[j] != s2[i + j]) {
@@ -54,6 +66,6 @@ bool isSubstring(const std::string& s1, const std::string& s2) {
 
 int main() {
   // Test hardcoded string
-  std::string result = isRotation("pikachu", "kachupi") ? "true" : "false";
+  std::string result = isRotation("pikachu", "chupika") ? "true" : "false";
   std::cout << result << '\n';
 }
