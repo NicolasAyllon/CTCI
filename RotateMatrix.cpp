@@ -5,7 +5,6 @@ is 4 bytes, write a method to rotate the image by 90 degrees.
 */
 #include<iostream>
 #include<fstream>
-#include<sstream>
 #include<vector>
 
 // In-place counterclockwise rotation 
@@ -30,7 +29,7 @@ void rotateSquareMatrixCounterclockwise(std::vector< std::vector<int> >& m) {
         *   *   *  ...  *  (B)   *
     i              ...      
         *  (D)  *  ...  *   *   *
-          -j|              -j
+          -j|             -j
         *   *   *  ... (C)<-*<--*
             |                   | -i
   N-1->(*)->*   *  ...  *   *  (*)
