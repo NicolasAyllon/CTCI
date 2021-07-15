@@ -1,5 +1,5 @@
 /* 
-   Kth To Last:
+   K-th To Last:
    Implement an algorithm to find the kth to last element 
    of a singly linked list.
 */
@@ -14,18 +14,16 @@
 //
 // 0 -> 1 -> 2 -> ... -> N-1
 //
-// The kth-to-last-element is
+// The kth-to-last-element is at "index" N-k
 // 
-
 //                    kth       3rd    2nd   last
 //                     |         |      |      |
 // 0 -> 1 -> 2 -> ... N-k ...-> N-3 -> N-2 -> N-1
 
-void detectErrors(SinglyLinkedList& list, int k);
-
 // Preconditions:
 // -list is not empty
 // -k is a positive number not larger than the list size
+void detectErrors(SinglyLinkedList& list, int k);
 // Throws an error otherwise
 int KthToLast(SinglyLinkedList& list, int k) {
   detectErrors(list, k);
@@ -40,6 +38,7 @@ int KthToLast(SinglyLinkedList& list, int k) {
   return current->data;
 }
 
+
 void detectErrors(SinglyLinkedList& list, int k) {
   if(list.empty()) {
     throw std::invalid_argument("list cannot be empty");
@@ -52,6 +51,13 @@ void detectErrors(SinglyLinkedList& list, int k) {
   }
 }
 
+// Read test data from file.
+// Example input (2 lines):
+// 2 7 1 8 2 9 1 8 3  <- space separated list
+// 4                  <- value of k
+//
+// output:
+// 9                  <- 4th-to-last item is 9
 int main() {
   std::ifstream testFile("KthToLast_test.txt");
   if(testFile.is_open()) {
@@ -73,6 +79,7 @@ int main() {
       int k = std::stoi(line_k);
       // Print list and k-th to last element on separate lines
       std::cout << list << '\n';
+      std::cout << "calulated size: " << list.calculateSize() << '\n';
       std::cout << k << "-th to last: " << KthToLast(list, k) << '\n';
       std::cout << '\n';
     }
