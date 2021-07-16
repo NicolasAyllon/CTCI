@@ -25,6 +25,7 @@
 // -k is a positive number not larger than the list size
 void detectErrors(SinglyLinkedList& list, int k);
 // Throws an error otherwise
+
 int KthToLast(SinglyLinkedList& list, int k) {
   detectErrors(list, k);
   SinglyLinkedList::Node* head = list.head;
@@ -37,7 +38,6 @@ int KthToLast(SinglyLinkedList& list, int k) {
   // return data at this node
   return current->data;
 }
-
 
 void detectErrors(SinglyLinkedList& list, int k) {
   if(list.empty()) {

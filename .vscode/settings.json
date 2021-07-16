@@ -68,6 +68,7 @@
         "set": "cpp",
         "stack": "cpp",
         "thread": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "unordered_map": "cpp"
     }
 }
