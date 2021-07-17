@@ -20,6 +20,7 @@ class SinglyLinkedList {
   int calculateSize();
   void push_back(int item);
   void pop_back();
+  Node* nodeAt(int index);
 
   // Overload operator <<
   friend std::ostream& operator<<(
@@ -31,6 +32,7 @@ class SinglyLinkedList {
   friend int KthToLast_recursive(SinglyLinkedList& list, int k);
   friend Node* KthToLast_recursive_helper
       (SinglyLinkedList& list, Node*, int& k, int& i);
+  friend void deleteMiddleNode(Node* node);
 };
 
 
@@ -39,6 +41,27 @@ class SinglyLinkedList {
 SinglyLinkedList::Node::Node(int data) {
   this->data = data;
   this->next = nullptr;
+}
+
+// Return pointer to node at given 0-based index
+// Returns nullptr if
+// - the list is empty
+// - index is negative or too large (beyond end of list)
+SinglyLinkedList::Node* SinglyLinkedList::nodeAt(int index) {
+  if(index < 0) return nullptr;
+
+  SinglyLinkedList::Node* current = this->head;
+  int i = 0;
+  while(current != nullptr) {
+    // If at correct index, return
+    if(i == index) return current;
+    // Otherwise advance current and increment i
+    current = current->next;
+    ++i;
+  }
+  return current; 
+  // equal to nullptr 
+  // if list is empty or we've reached the end of the list (index is too large)
 }
 
 // PUBLIC
