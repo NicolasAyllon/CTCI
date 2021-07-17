@@ -26,7 +26,9 @@
 void detectErrors(SinglyLinkedList& list, int k);
 // Throws an error otherwise
 
-int KthToLast(SinglyLinkedList& list, int k) {
+
+// Method 1: Counting
+int KthToLast_count(SinglyLinkedList& list, int k) {
   detectErrors(list, k);
   SinglyLinkedList::Node* head = list.head;
   SinglyLinkedList::Node* current = head;
@@ -38,6 +40,35 @@ int KthToLast(SinglyLinkedList& list, int k) {
   // return data at this node
   return current->data;
 }
+
+
+// Method 2: Recursion
+int KthToLast_recursive(SinglyLinkedList& list, int k) {
+  SinglyLinkedList::Node* current = list.head;
+  SinglyLinkedList::Node* result;
+  int i = 0;
+  result = KthToLast_recursive_helper(list, current, k, i);
+  return result->data;
+}
+
+SinglyLinkedList::Node* KthToLast_recursive_helper
+    (SinglyLinkedList& list, SinglyLinkedList::Node* current, int& k, int& i) {
+  if(current == nullptr) {
+    i = 0; // for clarity
+    return nullptr;
+  }
+  else {
+    // Recurse to end of list
+    SinglyLinkedList::Node* result;
+    result = KthToLast_recursive_helper(list, current->next, k, i);
+    // Then increment i starting at 0 as calls are popped off the stack frame
+    ++i;
+    // Set result as current node at the desired element (kth-from-last)
+    if(i == k) result = current;
+    return result;
+  }
+}
+
 
 void detectErrors(SinglyLinkedList& list, int k) {
   if(list.empty()) {
@@ -80,7 +111,7 @@ int main() {
       // Print list and k-th to last element on separate lines
       std::cout << list << '\n';
       std::cout << "calulated size: " << list.calculateSize() << '\n';
-      std::cout << k << "-th to last: " << KthToLast(list, k) << '\n';
+      std::cout << k << "-th to last: " << KthToLast_recursive(list, k) << '\n';
       std::cout << '\n';
     }
   }

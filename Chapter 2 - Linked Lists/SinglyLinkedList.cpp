@@ -27,7 +27,10 @@ class SinglyLinkedList {
   
   // Challenges
   friend void removeDups(SinglyLinkedList& list);
-  friend int KthToLast(SinglyLinkedList& list, int k);
+  friend int KthToLast_count(SinglyLinkedList& list, int k);
+  friend int KthToLast_recursive(SinglyLinkedList& list, int k);
+  friend Node* KthToLast_recursive_helper
+      (SinglyLinkedList& list, Node*, int& k, int& i);
 };
 
 
