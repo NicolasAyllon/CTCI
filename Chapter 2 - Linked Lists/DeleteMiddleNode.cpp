@@ -30,18 +30,18 @@ int main () {
     std::string s_nodeIndex;
 
     while(std::getline(testFile, s_list)) {
-      
+      // Read 1st line containing list
       SinglyLinkedList list;
       std::stringstream ss_list(s_list);
       int data = 0;
-
+      // push data into list
       while(ss_list >> data) {
         list.push_back(data);
       }
-
+      // Read 2nd line containing index to delete
       std::getline(testFile, s_nodeIndex);
       int indexToDelete = std::stoi(s_nodeIndex);
-
+      // Print before and after
       std::cout << "before: " << list << '\n';
       deleteMiddleNode(list.nodeAt(indexToDelete));
       std::cout << "deleted node at index " << indexToDelete << '\n';
