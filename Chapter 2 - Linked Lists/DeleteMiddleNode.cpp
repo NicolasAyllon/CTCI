@@ -14,6 +14,8 @@ of a singly linked list, given only access to that node.
 // Precondition: 
 // node points a node that is not the first or last in the list
 void deleteMiddleNode(SinglyLinkedList::Node* node) {
+  // If the node is null or at the end of the list, do nothing
+  if(node == nullptr || node->next == nullptr) return;
   // copy data from next node 
   SinglyLinkedList::Node* nextNode = node->next;
   node->data = nextNode->data;
