@@ -28,7 +28,7 @@ void detectErrors(SinglyLinkedList& list, int k);
 
 
 // Method 1: Counting
-int KthToLast_count(SinglyLinkedList& list, int k) {
+int KthToLast_iterative(SinglyLinkedList& list, int k) {
   detectErrors(list, k);
   SinglyLinkedList::Node* head = list.head;
   SinglyLinkedList::Node* current = head;
