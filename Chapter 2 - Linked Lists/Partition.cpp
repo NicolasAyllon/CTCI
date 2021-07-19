@@ -88,8 +88,10 @@ bool isPartitioned(SinglyLinkedList& list, int partition) {
 
 // Using std::list
 void partition_stl(std::list<int>& list, int partition) {
-  // implement
+  // Create a new list for storing elements in the right partition
   std::list<int> rightPartition;
+  // Iterate through list, using splice() to move 
+  // elements >= partition into rightPartition
   auto it = list.begin();
   while(it != list.end()) {
     if(*it >= partition) {
@@ -106,6 +108,9 @@ void partition_stl(std::list<int>& list, int partition) {
       ++it;
     }
   }
+  // The only items left in list are less than (<) the partition value, 
+  // so list has become the left partition. 
+  // Lastly, splice on the right partition.
   list.splice(list.end(), rightPartition);
   return;
 }
