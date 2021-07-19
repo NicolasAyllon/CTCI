@@ -61,6 +61,8 @@ void partition(SinglyLinkedList& list, int partition) {
   }
 }
 
+
+// Utility to check if SinglyLinkedList is partitioned by value 'partition'
 bool isPartitioned(SinglyLinkedList& list, int partition) {
   // A list with 0 or 1 elements is partitioned by vacuous truth
   if(list.head == nullptr || list.head->next == nullptr) return true;
@@ -87,8 +89,27 @@ bool isPartitioned(SinglyLinkedList& list, int partition) {
 // Using std::list
 void partition_stl(std::list<int>& list, int partition) {
   // implement
+  std::list<int> rightPartition;
+  auto it = list.begin();
+  while(it != list.end()) {
+    if(*it >= partition) {
+      // After splicing an element pointed by iterator from list 1 into list 2,
+      // the iterator now iterates throught list 2.
+      // To avoid this and keep it iterating through the original list, 
+      // make a copy of iterator it (called it_splice) 
+      // and increment iterator it before splicing.
+      auto it_splice = it; 
+      ++it;
+      rightPartition.splice(rightPartition.end(), list, it_splice);
+    }
+    else {
+      ++it;
+    }
+  }
+  list.splice(list.end(), rightPartition);
   return;
 }
+
 
 int main () {
   std::ifstream testFile("Partition_test.txt");
@@ -96,27 +117,40 @@ int main () {
     std::string s_list;
     std::string s_partitionValue;
     while(std::getline(testFile, s_list)) {
-      SinglyLinkedList list;
+      //SinglyLinkedList list;
+      std::list<int> stl_list;
       std::stringstream ss_list(s_list);
       int data = 0;
       while(ss_list >> data) {
-        list.push_back(data);
+        //list.push_back(data);
+        stl_list.push_back(data);
       }
       std::getline(testFile, s_partitionValue);
       int partitionValue = std::stoi(s_partitionValue);
       std::string result ="";
 
-      std::cout << "before: " << list << '\n';
+      //std::cout << "before: " << list << '\n';
+      std::cout << "before: ";
+      for(auto val: stl_list) {
+        std::cout << val << " ";
+      }
+      std::cout << '\n';
+
       std::cout << "partition value: " << partitionValue << '\n';
 
-      result = isPartitioned(list, partitionValue) ? "true" : "false";
-      std::cout << "is partitioned: " << result << '\n';
+      //result = isPartitioned(list, partitionValue) ? "true" : "false";
+      //std::cout << "is partitioned: " << result << '\n';
 
-      partition(list, partitionValue);
-      std::cout << "after: " << list << '\n';
-
-      result = isPartitioned(list, partitionValue) ? "true" : "false";
-      std::cout << "is partitioned: " << result << '\n';
+      //partition(list, partitionValue);
+      partition_stl(stl_list, partitionValue);
+      //std::cout << "after: " << list << '\n';
+      std::cout << "after: ";
+      for(auto val: stl_list) {
+        std::cout << val << " ";
+      }
+      std::cout << '\n';
+      //result = isPartitioned(list, partitionValue) ? "true" : "false";
+      //std::cout << "is partitioned: " << result << '\n';
       std::cout << '\n';
     }
   }
