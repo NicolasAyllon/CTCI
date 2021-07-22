@@ -6,7 +6,7 @@ class SinglyLinkedList {
   struct Node {
     int data;
     Node* next;
-    Node(int data = 0);
+    Node(int data = 0, Node* next = nullptr);
   };
   Node* head;
   Node* tail;
@@ -21,11 +21,16 @@ class SinglyLinkedList {
   void push_back(int item);
   void pop_back();
   Node* nodeAt(int index);
+  Node* headNode();
+  Node* tailNode();
 
   // Overload operator <<
   friend std::ostream& operator<<(
     std::ostream& out, const SinglyLinkedList& list);
   
+  // For printing from node to end
+  friend void printToEnd(Node* head);
+
   // Challenges
   friend void removeDups(SinglyLinkedList& list);
 
@@ -39,14 +44,17 @@ class SinglyLinkedList {
   friend void partition(SinglyLinkedList& list, int partition);
   friend bool isPartitioned(SinglyLinkedList& list, int partition);
 
+  friend Node* sumLists(Node* head1, Node* head2);
+
 };
 
 
 // PRIVATE
 // *******
-SinglyLinkedList::Node::Node(int data) {
+// Default values (data = 0, next = nullptr)
+SinglyLinkedList::Node::Node(int data, Node* next) {
   this->data = data;
-  this->next = nullptr;
+  this->next = next;
 }
 
 // Return pointer to node at given 0-based index
@@ -68,6 +76,14 @@ SinglyLinkedList::Node* SinglyLinkedList::nodeAt(int index) {
   return current; 
   // equal to nullptr 
   // if list is empty or we've reached the end of the list (index is too large)
+}
+
+SinglyLinkedList::Node* SinglyLinkedList::headNode() {
+  return this->head;
+}
+
+SinglyLinkedList::Node* SinglyLinkedList::tailNode() {
+  return this->tail;
 }
 
 // PUBLIC
@@ -167,4 +183,22 @@ std::ostream& operator<<(std::ostream& out, const SinglyLinkedList& list) {
     }
   }
   return out;
+}
+
+// Prints a list from a starting node to the end
+void printToEnd(SinglyLinkedList::Node* head) {
+  if(head == nullptr) {
+    std::cout << "->";
+  }
+  else {
+    // Print 1st item
+    std::cout << "-> " << head->data;
+    // Print the rest 
+    SinglyLinkedList::Node* current = head->next;
+    while(current != nullptr) {
+      std::cout << " -> " << current->data;
+      current = current->next;
+    }
+  }
+  std::cout << '\n';
 }
