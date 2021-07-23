@@ -45,6 +45,8 @@ class SinglyLinkedList {
   friend bool isPartitioned(SinglyLinkedList& list, int partition);
 
   friend Node* sumLists(Node* head1, Node* head2);
+  friend Node* sumLists_recursive(Node* head1, Node* head2);
+  friend Node* sumLists_recursive(Node* head1, Node* head2, int carry);
 
 };
 

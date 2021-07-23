@@ -10,6 +10,8 @@ Output: 2 -> 1 -> 9. That is, 912.
 */
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <list>
 #include "SinglyLinkedList.cpp"
@@ -114,6 +116,48 @@ SinglyLinkedList::Node* sumLists
   return result_head;
 }
 
+// Solution 3:
+// Recursion with SinglyLinkedList
+SinglyLinkedList::Node* sumLists_recursive
+    (SinglyLinkedList::Node* head1, SinglyLinkedList::Node* head2) {
+  int carry = 0;
+  return sumLists_recursive(head1, head2, carry);
+}
+
+// Helping method
+SinglyLinkedList::Node* sumLists_recursive
+    (SinglyLinkedList::Node* head1, SinglyLinkedList::Node* head2, int carry) {
+  // base case
+  if(head1 == nullptr && head2 == nullptr && carry == 0) return nullptr;
+  // get digits from non-null pointers
+  int digit1 = (head1 != nullptr ? head1->data : 0);
+  int digit2 = (head2 != nullptr ? head2->data : 0);
+  // calculate this digit and increment the head of the next list by carry
+  int sumDigits = digit1 + digit2 + carry;
+  int resultDigit = sumDigits % 10;
+  carry = sumDigits / 10;
+  // Advance non-null pointers and make recursive call for head of the list
+  // representing the rest of the sum.
+  SinglyLinkedList::Node* newNode = new SinglyLinkedList::Node(resultDigit);
+  if(head1 != nullptr) head1 = head1->next;
+  if(head2 != nullptr) head2 = head2->next;
+  newNode->next = sumLists_recursive(head1, head2, carry);
+  return newNode;
+}
+
+SinglyLinkedList intToList(int num) {
+  SinglyLinkedList resultList;
+  if(num == 0) {
+    resultList.push_back(0);
+    return resultList;
+  }
+  while(num != 0) {
+    int digit = num % 10;
+    num /= 10;
+    resultList.push_back(digit);
+  }
+  return resultList;
+}
 
 // Print function to use in main()
 void print(const list& l) {
@@ -122,7 +166,30 @@ void print(const list& l) {
 }
 
 int main() {
-  // Test hardcoded lists
+  // Test lists from file
+  std::ifstream testFile("SumLists_test.txt");
+  if(testFile.is_open()) {
+    std::string line;
+    int num1, num2;
+    while(std::getline(testFile, line)) {
+      std::stringstream ss(line);
+      ss >> num1 >> num2;
+      SinglyLinkedList l1 = intToList(num1);
+      SinglyLinkedList l2 = intToList(num2);
+      std::cout << "l1: ";
+      printToEnd(l1.headNode());
+      std::cout << "l2: ";
+      printToEnd(l2.headNode());
+      std::cout << "sumLists: ";
+      printToEnd(sumLists(l1.headNode(), l2.headNode()));
+      std::cout << "sumLists_recursive: ";
+      printToEnd(sumLists_recursive(l1.headNode(), l2.headNode()));
+      std::cout << '\n';
+    }
+  }
+
+
+  // // Test hardcoded std::lists
   // list testList1;
   // testList1.push_back(9);
   // testList1.push_back(9);
@@ -135,17 +202,22 @@ int main() {
   // print(testList2);
   // print(sumLists_stl(testList1, testList2));
 
-  // 7 -> 1 -> 6 represents 617
-  SinglyLinkedList testSLL1;
-  testSLL1.push_back(7);
-  testSLL1.push_back(1);
-  testSLL1.push_back(6);
 
-  // 5 -> 9 -> 2 represents 295
-  SinglyLinkedList testSLL2;
-  testSLL2.push_back(5);
-  testSLL2.push_back(9);
-  testSLL2.push_back(2);
+  // // Test sumLists and sumLists_recursive
+  // // 7 -> 1 -> 6 represents 617
+  // SinglyLinkedList testSLL1;
+  // testSLL1.push_back(9);
+  // testSLL1.push_back(9);
+  // testSLL1.push_back(9);
 
-  printToEnd(sumLists(testSLL1.headNode(), testSLL2.headNode()));
+  // // 5 -> 9 -> 2 represents 295
+  // SinglyLinkedList testSLL2;
+  // testSLL2.push_back(1);
+  // // testSLL2.push_back(9);
+  // // testSLL2.push_back(2);
+
+  // std::cout << "sumLists: " << '\n';
+  // printToEnd(sumLists(testSLL1.headNode(), testSLL2.headNode()));
+  // std::cout << "sumLists_recursive: " << '\n';
+  // printToEnd(sumLists_recursive(testSLL1.headNode(), testSLL2.headNode()));
 }
