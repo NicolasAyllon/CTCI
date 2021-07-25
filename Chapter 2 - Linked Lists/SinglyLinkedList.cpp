@@ -20,6 +20,7 @@ class SinglyLinkedList {
   int calculateSize();
   void push_back(int item);
   void pop_back();
+  void push_front(int item);
   Node* nodeAt(int index);
   Node* headNode();
   Node* tailNode();
@@ -47,7 +48,9 @@ class SinglyLinkedList {
   friend Node* sumLists(Node* head1, Node* head2);
   friend Node* sumLists_recursive(Node* head1, Node* head2);
   friend Node* sumLists_recursive(Node* head1, Node* head2, int carry);
-
+  friend Node* sumListsReverse(Node* head1, Node* head2);
+  friend Node* sumListsReverse(Node* head1, Node* head2, int& carry);
+  friend void padZerosToEqualizeLength (Node*& head1, Node*& head2);
 };
 
 
@@ -167,7 +170,17 @@ void SinglyLinkedList::pop_back() {
   --m_size;
 }
 
-
+void SinglyLinkedList::push_front(int data) {
+  Node* node = new Node(data);
+  if(head == nullptr) {
+    head = node;
+    tail = node;
+  }
+  else {
+    node->next = head;
+    head = node;
+  }
+}
 
 // Overload <<
 std::ostream& operator<<(std::ostream& out, const SinglyLinkedList& list) {
