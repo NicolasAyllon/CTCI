@@ -13,3 +13,11 @@
 
 # Ignore debug symbol files
 *.dSYM
+
+# Ignore executable & object files
+*.exe
+*.out
+*.o
+
+# Ignore
+*.vscode
