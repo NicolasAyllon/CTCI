@@ -51,6 +51,8 @@ class SinglyLinkedList {
   friend Node* sumListsReverse(Node* head1, Node* head2);
   friend Node* sumListsReverse(Node* head1, Node* head2, int& carry);
   friend void padZerosToEqualizeLength (Node*& head1, Node*& head2);
+
+  friend bool isPalindrome(Node* head);
 };
 
 
