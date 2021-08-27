@@ -21,6 +21,7 @@ class SinglyLinkedList {
   void push_back(int item);
   void pop_back();
   void push_front(int item);
+
   Node* nodeAt(int index);
   Node* headNode();
   Node* tailNode();
@@ -31,6 +32,7 @@ class SinglyLinkedList {
   
   // For printing from node to end
   friend void printToEnd(Node* head);
+  friend void printMemoryToEnd(Node* head);
 
   // Challenges
   friend void removeDups(SinglyLinkedList& list);
@@ -53,6 +55,7 @@ class SinglyLinkedList {
   friend void padZerosToEqualizeLength (Node*& head1, Node*& head2);
 
   friend bool isPalindrome(Node* head);
+  friend Node* intersection(Node* head1, Node* head2);
 };
 
 
@@ -62,35 +65,6 @@ class SinglyLinkedList {
 SinglyLinkedList::Node::Node(int data, Node* next) {
   this->data = data;
   this->next = next;
-}
-
-// Return pointer to node at given 0-based index
-// Returns nullptr if
-// - the list is empty
-// - index is negative or too large (beyond end of list)
-SinglyLinkedList::Node* SinglyLinkedList::nodeAt(int index) {
-  if(index < 0) return nullptr;
-
-  SinglyLinkedList::Node* current = this->head;
-  int i = 0;
-  while(current != nullptr) {
-    // If at correct index, return
-    if(i == index) return current;
-    // Otherwise advance current and increment i
-    current = current->next;
-    ++i;
-  }
-  return current; 
-  // equal to nullptr 
-  // if list is empty or we've reached the end of the list (index is too large)
-}
-
-SinglyLinkedList::Node* SinglyLinkedList::headNode() {
-  return this->head;
-}
-
-SinglyLinkedList::Node* SinglyLinkedList::tailNode() {
-  return this->tail;
 }
 
 // PUBLIC
@@ -184,6 +158,35 @@ void SinglyLinkedList::push_front(int data) {
   }
 }
 
+// Return pointer to node at given 0-based index
+// Returns nullptr if
+// - the list is empty
+// - index is negative or too large (beyond end of list)
+SinglyLinkedList::Node* SinglyLinkedList::nodeAt(int index) {
+  if(index < 0) return nullptr;
+
+  SinglyLinkedList::Node* current = this->head;
+  int i = 0;
+  while(current != nullptr) {
+    // If at correct index, return
+    if(i == index) return current;
+    // Otherwise advance current and increment i
+    current = current->next;
+    ++i;
+  }
+  return current; 
+  // equal to nullptr 
+  // if list is empty or we've reached the end of the list (index is too large)
+}
+
+SinglyLinkedList::Node* SinglyLinkedList::headNode() {
+  return this->head;
+}
+
+SinglyLinkedList::Node* SinglyLinkedList::tailNode() {
+  return this->tail;
+}
+
 // Overload <<
 std::ostream& operator<<(std::ostream& out, const SinglyLinkedList& list) {
   if(list.head == nullptr) {
@@ -218,4 +221,13 @@ void printToEnd(SinglyLinkedList::Node* head) {
     }
   }
   std::cout << '\n';
+}
+
+// Prints a list from a starting node to the end
+void printMemoryToEnd(SinglyLinkedList::Node* head) {
+  while(head != nullptr) {
+    std::cout << head << " -> ";
+    head = head->next;
+  }
+  std::cout << head << '\n';
 }
