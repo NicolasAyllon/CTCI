@@ -55,7 +55,9 @@ class SinglyLinkedList {
   friend void padZerosToEqualizeLength (Node*& head1, Node*& head2);
 
   friend bool isPalindrome(Node* head);
-  friend Node* intersection(Node* head1, Node* head2);
+  
+  friend Node* intersection_wrap(Node* head1, Node* head2);
+  friend Node* intersection_with_set(Node* head1, Node* head2);
 };
 
 

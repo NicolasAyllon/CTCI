@@ -10,10 +10,15 @@ second linked list, then they are intersecting.
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <set>
 #include "SinglyLinkedList.cpp"
 
 /* 
-Method 1:
+Method 1: Wrapped Traversal
+
+Time: O(N1 + N2)
+Space: O(1)
+
 Traverse both lists at the same time, checking whether the pointers are equal.
 If the same length, we will find the intersecting node before reaching the end, 
 or if they do not intersect, then they will reach the ends at the same time.
@@ -40,7 +45,7 @@ intersecting node at the same time because:
   traversed by current2
   (# in list 2 only) + (# in common) + (# in list 1 only)
 */
-SinglyLinkedList::Node* intersection
+SinglyLinkedList::Node* intersection_wrap
   (SinglyLinkedList::Node* head1, SinglyLinkedList::Node* head2) {
 
   SinglyLinkedList::Node* current1 = head1;
@@ -56,6 +61,38 @@ SinglyLinkedList::Node* intersection
     current2 = current2->next != nullptr ? current2->next : head1;
   }
   return nullptr;
+}
+
+/* Method 3: use std::set
+
+Time: O(N1*insert_in_S1 + N2*find_in_S1)
+
+Traverse list 1 from head to tail and add a pointer to each node to the set.
+Then traverse list 2 from head to tail and check whether each node is in set.
+Return the first node in list 2 has in common with list 1 
+(the intersection point), or finish iterating by reach the end of the list.
+*/
+SinglyLinkedList::Node* intersection_with_set
+  (SinglyLinkedList::Node* head1, SinglyLinkedList::Node* head2) {
+    std::set<SinglyLinkedList::Node*> s;
+    // Add all Node* in list 1 to set s
+    SinglyLinkedList::Node* current = head1;
+    while(current != nullptr) {
+      s.insert(current);
+      current = current->next;
+    }
+    // Iterate through list 2 from head to tail, 
+    // checking whether each node is in the set of nodes from list 1
+    current = head2;
+    while(current != nullptr) {
+      if(s.find(current) != s.end()) {
+        return current;
+      }
+      current = current->next;
+    }
+    // If we never found any node from list 2 in the set of nodes from list 1
+    // return nullptr to mean the lists don't intersect.
+    return nullptr;
 }
 
 int main() {
@@ -83,9 +120,9 @@ int main() {
   printMemoryToEnd(l2.headNode());
   
   // Lists intersect at node with data: 4
-  if(intersection(l1.headNode(), l2.headNode())) {
-    std::cout << "intersection: " << intersection(l1.headNode(), l2.headNode()) << '\n';
-    std::cout << "data: " << intersection(l1.headNode(), l2.headNode())->data << '\n';
+  if(intersection_with_set(l1.headNode(), l2.headNode())) {
+    std::cout << "intersection: " << intersection_with_set(l1.headNode(), l2.headNode()) << '\n';
+    std::cout << "data: " << intersection_with_set(l1.headNode(), l2.headNode())->data << '\n';
   }
   else {
     std::cout << "No intersection" << '\n';
