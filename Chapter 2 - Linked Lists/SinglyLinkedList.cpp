@@ -34,6 +34,7 @@ class SinglyLinkedList {
   friend void printToEnd(Node* head);
   friend void printMemoryToEnd(Node* head);
 
+
   // Challenges
   friend void removeDups(SinglyLinkedList& list);
 
@@ -55,7 +56,7 @@ class SinglyLinkedList {
   friend void padZerosToEqualizeLength (Node*& head1, Node*& head2);
 
   friend bool isPalindrome(Node* head);
-  
+
   friend Node* intersection_wrap(Node* head1, Node* head2);
   friend Node* intersection_with_set(Node* head1, Node* head2);
 };

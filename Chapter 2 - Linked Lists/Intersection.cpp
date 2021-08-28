@@ -10,7 +10,7 @@ second linked list, then they are intersecting.
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <set>
+#include <unordered_set>
 #include "SinglyLinkedList.cpp"
 
 /* 
@@ -63,9 +63,10 @@ SinglyLinkedList::Node* intersection_wrap
   return nullptr;
 }
 
-/* Method 3: use std::set
+/* Method 2: use std::unordered_set
 
-Time: O(N1*insert_in_S1 + N2*find_in_S1)
+Time: O(N1 + N2)
+Space: O(N1)
 
 Traverse list 1 from head to tail and add a pointer to each node to the set.
 Then traverse list 2 from head to tail and check whether each node is in set.
@@ -74,7 +75,7 @@ Return the first node in list 2 has in common with list 1
 */
 SinglyLinkedList::Node* intersection_with_set
   (SinglyLinkedList::Node* head1, SinglyLinkedList::Node* head2) {
-    std::set<SinglyLinkedList::Node*> s;
+    std::unordered_set<SinglyLinkedList::Node*> s;
     // Add all Node* in list 1 to set s
     SinglyLinkedList::Node* current = head1;
     while(current != nullptr) {
@@ -107,7 +108,7 @@ int main() {
   SinglyLinkedList l2; // 10 -> 20 -> 4 -> 5 (same 4 and 5 as list l1)
   l2.push_back(10);
   l2.push_back(20);
-  // Connect
+  // set node at index 1 in list2 to point to node at index 3 in list1
   l2.nodeAt(1)->next = l1.nodeAt(3);
 
   // l1:   1 -> 2 -> 3 ➘
