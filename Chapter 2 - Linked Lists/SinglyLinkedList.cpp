@@ -59,6 +59,11 @@ class SinglyLinkedList {
 
   friend Node* intersection_wrap(Node* head1, Node* head2);
   friend Node* intersection_with_set(Node* head1, Node* head2);
+
+  friend Node* getCycleStart(Node* head);
+  friend Node* getCycleStart_Floyd(Node* head);
+  friend bool containsCycle(Node* head);
+  friend int getCycleLength(Node* head);
 };
 
 
