@@ -6,7 +6,6 @@ It is a more general version of exercise 3.1 in Cracking the Coding Interview,
 "Three in One", which asks how to use a single array to implement 3 stacks.
 */
 
-#include <iostream>
 #include <sstream>
 
 template <typename T>
@@ -54,11 +53,16 @@ template <typename T>
 void Stack_Array<T>::Resize(int new_capacity) {
   T* old = array_;
   array_ = new T[new_capacity]{};
-
+  // On failed allocation, reset to old array with contents unchanged.
+  if(array_ == nullptr) {
+    array_ = old;
+    return;
+  }
+  // Copy elements from old array into new one
   for(int i = 0; i < size_; ++i) {
     array_[i] = old[i];
   }
-
+  // Then delete the old array & update capacity
   delete[] old;
   capacity_ = new_capacity;
 }
