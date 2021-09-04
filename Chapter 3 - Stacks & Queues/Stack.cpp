@@ -14,6 +14,9 @@ class Stack {
       T data;
       Node* below;
       Node(T data_in = T(), Node* below_in = nullptr);
+
+      // Stack_Min challenge
+      Node* min_below;
     };
     Node* top_;
     int size_;
@@ -28,6 +31,9 @@ class Stack {
     int size() const;
     std::string toString() const;
 
+    // Challenges
+    T min() const;
+
     friend std::ostream& operator<< <T>(std::ostream&, const Stack<T>&);
     friend void printVertically <T>(const Stack<T>&);
 };
@@ -35,7 +41,10 @@ class Stack {
 
 template <typename T>
 Stack<T>::Node::Node(T data_in, Node* below_in)
-  : data(data_in), below(below_in) {}
+  : data(data_in), below(below_in) {
+    // Stack_Min
+    min_below = nullptr;
+  }
 
 template <typename T>
 Stack<T>::Stack() 
@@ -45,6 +54,7 @@ template <typename T>
 Stack<T>::~Stack() {
   Node* current = top_;
   Node* nodeToDelete;
+
   while(current != nullptr) {
     nodeToDelete = current;
     current = current->below;
@@ -54,7 +64,17 @@ Stack<T>::~Stack() {
 
 template <typename T>
 void Stack<T>::push(T data) {
-  Node* node = new Node(data, top_);
+  Node* node = new Node(data);
+  node->below = top_;
+
+  // Stack_Min
+  if(top_ == nullptr || data < top_->min_below->data) {
+    node->min_below = node;
+  }
+  else { // data >= min of stack below, so use the same min as the current top
+    node->min_below = top_->min_below;
+  }
+
   top_ = node;
   ++size_;
 }
@@ -82,6 +102,14 @@ bool Stack<T>::empty() const {
 template <typename T>
 int Stack<T>::size() const {
   return size_;
+}
+
+// Stack_Min challenge
+// [+] Challenge 
+template <typename T>
+T Stack<T>::min() const {
+  if(top_ == nullptr) { throw std::logic_error("Stack is empty"); }
+  return top_->min_below->data;
 }
 
 template <typename T>
