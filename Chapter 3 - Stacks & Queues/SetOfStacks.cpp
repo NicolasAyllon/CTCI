@@ -22,14 +22,16 @@ template <typename T>
 class FixedCapacitySubstack {
  private:
 
-  // [?] If the array is always of known size, do we need 'new' ?
-  // ? Could it be replaced by 
-  // ? T array_[k_capacity_]{};
-
   T* array_;
   static const int k_capacity_ = 8;
   int size_;
   int top_idx_;
+
+  //[?] Note: 
+  //? Since the array is always of fixed size, future revisions can replace
+  //? T* array_ = new T[k_capacity_];
+  //? with
+  //? T array_[k_capacity_];
 
  public:
   FixedCapacitySubstack() {
