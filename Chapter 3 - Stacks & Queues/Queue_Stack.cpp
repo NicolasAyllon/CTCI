@@ -11,7 +11,7 @@ Implement a class which implements a queue using two stacks.
 Approach:
 Use one stack for holding enqueued items and another for holding items to
 dequeue. Whenever the dequeue stack is empty, pop all items from the enqueue
-stack and push them onto the dequeue stack, where they will be the correct
+stack and push them onto the dequeue stack, where they will be in the correct
 order to be dequeued.
 
 Example:
