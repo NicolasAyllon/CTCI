@@ -20,29 +20,10 @@ template <typename T>
 void SortStack(std::stack<T>& stack) {
   std::stack<T> temp;
   T cache;
-  // std::cout << "Initial State: \n";
-  // std::cout << "stack: " << toString(stack);
-  // std::cout << "temp : " << toString(temp);
-  // std::cout << '\n';
   while(!stack.empty()) {
-    // The temporary stack is empty or the next item in the stack is
-    // correctly ordered (greater than the previous one, now on top of temp).
-    // So, transfer item to temp.
     if(temp.empty() || stack.top() >= temp.top()) {
-      // if(temp.empty()) {
-      //   std::cout << "Temp empty. Transfering element from stack...\n";
-      // }
-      // else {
-      //   std::cout << "temp top < stack top: " 
-      //             << temp.top() << " < " << stack.top() 
-      //             << ". Correct so far." << '\n';
-      // }
       temp.push(stack.top());
       stack.pop();
-      // std::cout << "Transfer: \n";
-      // std::cout << "stack: " << toString(stack);
-      // std::cout << "temp : " << toString(temp);
-      // std::cout << '\n';
       continue;
     }
     // The next item in the stack (top) is less than previous (at top of temp)
@@ -50,44 +31,19 @@ void SortStack(std::stack<T>& stack) {
     // Save to cache and put back in order.
     cache = stack.top();
     stack.pop();
-    // std::cout << "\titem " << cache << " is out of order!";
-    // std::cout << "\tcached: " << cache << '\n';
-    // std::cout << '\n';
-    // std::cout << "\tCache: [" << cache << "]" << '\n';
-    // std::cout << "\tstack: " << toString(stack);
-    // std::cout << "\ttemp : " << toString(temp);
-    // std::cout << '\n';
-    // std::cout << "\tfinding right place for " << cache << "...\n";
-    // std::cout << '\n';
+    
     while(!temp.empty() && cache < temp.top()) {
       stack.push(temp.top());
       temp.pop();
-      // std::cout << "\ttransfer: \n";
-      // std::cout << "\tCache: [" << cache << "]" << '\n';
-      // std::cout << "\tstack: " << toString(stack);
-      // std::cout << "\ttemp : " << toString(temp);
-      // std::cout << '\n';
     }
     stack.push(cache);
-    // std::cout << "\tfound right place, pushing cache onto stack...\n";
-    // std::cout << "\tstack: " << toString(stack);
-    // std::cout << "\ttemp : " << toString(temp);
-    // std::cout << '\n';
-
   }
   // All items transfered from stack to temp and no out-of-order items found.
   // Now temp contains items with largest at top.
   // Transfer all items back to stack to finish.
-  // std::cout << "---------------------------------------------------------\n";
-  // std::cout << "Sorting complete in reverse on temp. Transfer to stack...\n";
-  // std::cout << "---------------------------------------------------------\n";
   while(!temp.empty()) {
     stack.push(temp.top());
     temp.pop();
-    // std::cout << "Transfer: \n";
-    // std::cout << "stack: " << toString(stack);
-    // std::cout << "temp : " << toString(temp);
-    // std::cout << '\n';
   }
 }
 
@@ -119,7 +75,7 @@ std::string toString(std::stack<T> s) {
   return ss.str();
 }
 
-//[?] recursive version of print
+// recursive version of print
 template <typename T>
 std::string toStringRecursive(std::stack<T> s) {
   std::stringstream ss;
