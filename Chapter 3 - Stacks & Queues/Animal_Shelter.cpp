@@ -14,6 +14,7 @@ such as enqueue, dequeueAny, dequeueDog, and dequeueCat.
 #include <ctime>
 #include <sstream>
 #include <queue>
+#include "trim.cpp"
 
 enum AnimalType { 
   Dog, Cat
@@ -23,22 +24,24 @@ std::string getAnimalName(enum AnimalType type) {
   switch(type) {
     case Dog: return "Dog";
     case Cat: return "Cat";
+    default:  return "Unknown";
   }
 }
 
 
 struct Animal {
   AnimalType animal_type;
-  std::time_t arrival_time; // [?] or struct tm arrival_time;
+  std::time_t arrival_time;
   std::string name;
   
   Animal(
     AnimalType animal_type_in, 
-    time_t arrival_time_in = std::time(nullptr), 
-    std::string name_in = "") 
-    : animal_type(animal_type_in),
-      arrival_time(arrival_time_in),
-      name(name_in) 
+    std::string name_in = "",
+    time_t arrival_time_in = std::time(nullptr)
+    ) : 
+      animal_type(animal_type_in),
+      name(name_in) ,
+      arrival_time(arrival_time_in)
       {};
   
   std::string toString(bool includeAnimalType = true) {
@@ -47,14 +50,14 @@ struct Animal {
     if(includeAnimalType) {
       ss << getAnimalName(animal_type) << ", ";
     }
-    ss << "arrived " << arrival_time;
+    ss << "arrived " << trim(ctime(&arrival_time));
     return ss.str();
   }
   
   friend std::ostream& operator<<(std::ostream& out, const Animal& animal) {
     out << animal.name << ", " 
         << getAnimalName(animal.animal_type) << ", "
-        << "arrived " << animal.arrival_time;
+        << "arrived " << trim(ctime(&animal.arrival_time));
     return out;
   }
 };
@@ -103,6 +106,13 @@ class AnimalShelter {
     }
   }
 
+  Animal getFrontDog() {
+    if(dog_queue.empty()) {
+      throw std::logic_error("Queue is empty");
+    }
+    return dog_queue.front();
+  }
+
   std::string getFrontDogAsString() {
     if(dog_queue.empty()) {
       return "(none)";
@@ -110,11 +120,40 @@ class AnimalShelter {
     return dog_queue.front().toString(false);
   }
 
+  Animal getFrontCat() {
+    if(cat_queue.empty()) {
+      throw std::logic_error("Queue is empty");
+    }
+    return cat_queue.front();
+  }
+
   std::string getFrontCatAsString() {
     if(cat_queue.empty()) { 
       return "(none)"; 
     }
     return cat_queue.front().toString(false);
+  }
+
+  Animal getFrontAnimal() {
+    if(dog_queue.empty() && cat_queue.empty()) {
+      throw std::logic_error("Queue is empty");
+    }
+    if(cat_queue.empty()) {
+      return dog_queue.front();
+    }
+    if(dog_queue.empty()) {
+      return cat_queue.front();
+    }
+    if(dog_queue.front().arrival_time <= cat_queue.front().arrival_time) {
+      return dog_queue.front();
+    } else {
+      return cat_queue.front();
+    }
+  }
+
+  std::string getFrontAnimalAsString() {
+    if(dog_queue.empty() && cat_queue.empty()) return "(none)";
+    return getFrontAnimal().toString(true);
   }
 
   void dequeueDog() {
@@ -144,15 +183,29 @@ class AnimalShelter {
   }
 
   std::string dogsToString() {
+    if(dog_queue.empty()) {
+      return "(none)";
+    }
     std::stringstream ss;
     for(int i = 0; i < dog_queue.size(); ++i) {
-      ss << dog_queue.front() << '\n';
+      ss << dog_queue.front().toString(false) << '\n';
       dog_queue.push(dog_queue.front());
       dog_queue.pop();
     }
+    return ss.str();
   }
 
   std::string catsToString() {
-    //[+] implement
+    if(cat_queue.empty()) {
+      return "(none)";
+    }
+    std::stringstream ss;
+    for(int i = 0; i < cat_queue.size(); ++i) {
+      ss << cat_queue.front().toString(false) << '\n';
+      cat_queue.push(cat_queue.front());
+      cat_queue.pop();
+    }
+    return ss.str();
   }
+
 };
